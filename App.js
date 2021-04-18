@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   StyleSheet,
@@ -20,42 +20,41 @@ const App = () => {
   const [searchCity, setSearchCity] = React.useState('Ivano-Frankivsk');
 
   const fetchedData = () => {
-    const BASE_URL = `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&units=metric&appid=43c9175c9adbcdb037c705901f217e00`;
+    const BASE_URL =
+      `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&units=metric&appid=43c9175c9adbcdb037c705901f217e00`;
 
     return fetch(BASE_URL)
       .then(response => response.json())
-      .then(json => setLocation(json));
-  };
+      .then(json => setLocation(json))
+  }
 
   useEffect(() => {
-    fetchedData();
-  }, [fetchedData, searchCity]);
+    fetchedData()
+  }, [searchCity])
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    fetchedData().then(() => setRefreshing(false));
-  }, [fetchedData]);
+    fetchedData()
+      .then(() => setRefreshing(false));
+  }, [searchCity]);
 
-  const iconUrl = `https://openweathermap.org/img/w/${
-    location.weather && location.weather[0].icon
-  }.png`;
-  const backgroundImage = {
-    uri:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLCUgnMytKbqV8SHo_4Ke5-1M_UNRJ-R8mYg&usqp=CAU',
-  };
+  const iconUrl = `https://openweathermap.org/img/w/${location.weather && location.weather[0].icon}.png`;
+  const backgroundImage = {uri: 'https://i.pinimg.com/originals/b8/4f/ad/b84fadd0e1d07f7748a3a8c0e97ecc9f.jpg'};
 
-  const {name, sys, main, wind} = location;
+  const { name, sys, main, wind } = location;
 
   return (
-    <ImageBackground
-      source={backgroundImage}
-      style={{width: '100%', height: '100%'}}>
+    <ImageBackground source={backgroundImage} style={{width: '100%', height: '100%'}}>
       <SafeAreaView style={styles.container}>
         <ScrollView
           contentContainerStyle={styles.scrollView}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+        >
           {name && (
             <View style={{marginTop: 20}}>
               <Text style={styles.refresh_text}>Pull down to refresh</Text>
@@ -63,9 +62,7 @@ const App = () => {
           )}
 
           {!name && (
-            <Text style={{fontSize: 25, color: 'grey', fontWeight: 'bold'}}>
-              No searched city. Try another.
-            </Text>
+            <Text style={{fontSize: 25, color: 'grey', fontWeight: 'bold'}}>No searched city. Try another.</Text>
           )}
 
           <View style={{marginTop: 50}}>
@@ -76,11 +73,7 @@ const App = () => {
             />
           </View>
           <View style={{marginTop: 20}}>
-            <Button
-              color="black"
-              title="SEARCH"
-              onPress={() => setSearchCity(text)}
-            />
+            <Button color="black" title='SEARCH' onPress={() => setSearchCity(text)} />
           </View>
 
           {name && (
@@ -141,7 +134,7 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize: 30,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   main_temperature: {
     fontSize: 50,
@@ -167,7 +160,7 @@ const styles = StyleSheet.create({
   },
   refresh_text: {
     fontSize: 15,
-  },
-});
+  }
+})
 
 export default App;
